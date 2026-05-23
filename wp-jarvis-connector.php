@@ -3,7 +3,7 @@
  * Plugin Name:       WP Jarvis Connector
  * Plugin URI:        https://wpjarvis.com
  * Description:       Connect your WordPress site to WP Jarvis — AI page builder. Build, preview and publish pages with AI without leaving your site.
- * Version:           1.0.0
+ * Version:           1.0.3
  * Requires at least: 6.0
  * Requires PHP:      8.0
  * Author:            WP Jarvis
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'WJC_VERSION',     '1.0.0' );
+define( 'WJC_VERSION',     '1.0.3' );
 define( 'WJC_PLUGIN_FILE', __FILE__ );
 define( 'WJC_PLUGIN_DIR',  plugin_dir_path( __FILE__ ) );
 define( 'WJC_PLUGIN_URL',  plugin_dir_url( __FILE__ ) );

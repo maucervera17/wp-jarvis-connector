@@ -10,6 +10,65 @@ class WJC_Admin {
 	public function init() {
 		add_action( 'admin_menu',            [ $this, 'register_menu' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+		add_action( 'admin_init',            [ $this, 'handle_google_callback' ] );
+	}
+
+	/**
+	 * Handles the Google OAuth callback server-side.
+	 * Runs on admin_init before any output, so we can redirect cleanly.
+	 */
+	public function handle_google_callback() {
+		// Only act on our plugin page with a Google token present.
+		if ( ! isset( $_GET['page'], $_GET['wpjarvis_google_token'] ) ) return;
+		if ( $_GET['page'] !== 'wp-jarvis-connector' ) return;
+		if ( ! current_user_can( 'manage_options' ) ) return;
+
+		$token = sanitize_text_field( wp_unslash( $_GET['wpjarvis_google_token'] ) );
+		if ( empty( $token ) ) return;
+
+		// Exchange the token with the WP Jarvis backend.
+		$response = wp_remote_post(
+			WJC_BACKEND_URL . '/api/auth/google/exchange',
+			[
+				'headers' => [ 'Content-Type' => 'application/json' ],
+				'body'    => wp_json_encode( [ 'token' => $token ] ),
+				'timeout' => 15,
+			]
+		);
+
+		$clean_url = remove_query_arg( [ 'wpjarvis_google_token', 'wjc_google' ] );
+
+		if ( is_wp_error( $response ) ) {
+			wp_safe_redirect( add_query_arg( 'wjc_error', rawurlencode( 'Could not reach WP Jarvis server.' ), $clean_url ) );
+			exit;
+		}
+
+		$data = json_decode( wp_remote_retrieve_body( $response ), true );
+
+		if ( empty( $data['success'] ) || empty( $data['license_key'] ) ) {
+			$msg = ! empty( $data['error'] ) ? $data['error'] : 'Google sign-in failed. Please try again.';
+			wp_safe_redirect( add_query_arg( 'wjc_error', rawurlencode( $msg ), $clean_url ) );
+			exit;
+		}
+
+		// Generate Application Password and save credentials.
+		$user_id      = get_current_user_id();
+		$app_password = WJC_Connect::ensure_app_password( $user_id );
+
+		if ( ! $app_password ) {
+			wp_safe_redirect( add_query_arg( 'wjc_error', rawurlencode( 'Could not generate a WordPress Application Password. Make sure Application Passwords are enabled on your site.' ), $clean_url ) );
+			exit;
+		}
+
+		update_option( WJC_Connect::OPT_LICENSE_KEY,   sanitize_text_field( $data['license_key'] ) );
+		update_option( WJC_Connect::OPT_ACCOUNT_EMAIL, sanitize_email( $data['email'] ?? '' ) );
+
+		// Register with Render backend (best-effort).
+		WJC_Connect::register_site( $data['license_key'], $app_password, $user_id );
+
+		// Redirect back to the plugin page, now connected.
+		wp_safe_redirect( $clean_url );
+		exit;
 	}
 
 	public function register_menu() {
@@ -53,6 +112,7 @@ class WJC_Admin {
 	}
 
 	public function render_page() {
+		$php_error = isset( $_GET['wjc_error'] ) ? sanitize_text_field( wp_unslash( $_GET['wjc_error'] ) ) : '';
 		?>
 		<div class="wjc-wrap" id="wjc-app">
 
@@ -108,7 +168,7 @@ class WJC_Admin {
 						<h2><?php esc_html_e( 'Connect your site', 'wp-jarvis-connector' ); ?></h2>
 						<p><?php esc_html_e( 'Sign in to your WP Jarvis account to start building pages with AI.', 'wp-jarvis-connector' ); ?></p>
 
-						<div id="wjc-error" class="wjc-alert wjc-alert--error" style="display:none"></div>
+						<div id="wjc-error" class="wjc-alert wjc-alert--error" <?php echo $php_error ? '' : 'style="display:none"'; ?>><?php echo esc_html( $php_error ); ?></div>
 						<div id="wjc-success" class="wjc-alert wjc-alert--success" style="display:none"></div>
 
 						<!-- Google -->
