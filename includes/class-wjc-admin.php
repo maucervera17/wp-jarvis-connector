@@ -137,7 +137,7 @@ class WJC_Admin {
 						<div class="wjc-auth-links">
 							<a href="#" id="wjc-forgot-link"><?php esc_html_e( 'Forgot password?', 'wp-jarvis-connector' ); ?></a>
 							<span>·</span>
-							<a href="https://wpjarvis.com" target="_blank" rel="noopener"><?php esc_html_e( 'Create account', 'wp-jarvis-connector' ); ?></a>
+							<a href="<?php echo esc_url( WJC_BACKEND_URL . '/signup' ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Create account', 'wp-jarvis-connector' ); ?></a>
 						</div>
 
 						<p class="wjc-disclaimer">

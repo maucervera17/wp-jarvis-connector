@@ -134,18 +134,34 @@
 
     // Exchange token with WP Jarvis backend.
     (async () => {
+      showScreen('auth');
+      showError('Connecting… please wait.');
       try {
-        const authRes = await fetch(WJC.backendUrl + '/api/auth/google/exchange', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ token: googleToken }),
-        }).then((r) => r.json());
-
-        if (!authRes.success || !authRes.license_key) {
-          throw new Error(authRes.error || 'Google sign-in could not be completed.');
+        // Step 1: exchange the handoff token for credentials.
+        let authRes;
+        try {
+          const r = await fetch(WJC.backendUrl + '/api/auth/google/exchange', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token: googleToken }),
+          });
+          authRes = await r.json();
+        } catch (netErr) {
+          throw new Error('Could not reach WP Jarvis server. Check your internet connection.');
         }
 
-        await connectWithCredentials(authRes.email, authRes.license_key);
+        if (!authRes.success || !authRes.license_key) {
+          throw new Error(authRes.error || 'Google sign-in token was invalid or expired. Please try again.');
+        }
+
+        // Step 2: save credentials + generate Application Password.
+        try {
+          await connectWithCredentials(authRes.email, authRes.license_key);
+        } catch (connErr) {
+          throw new Error('Google sign-in worked but could not connect to WordPress: ' + (connErr.message || 'unknown error. Make sure Application Passwords are enabled on your site.'));
+        }
+
+        showError('');
         populateConnected(authRes.email);
         showScreen('connected');
       } catch (err) {
