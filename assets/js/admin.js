@@ -124,11 +124,11 @@
 
   // Handle Google callback (token in URL after redirect).
   const params = new URLSearchParams(window.location.search);
-  const googleToken = params.get('wjc_google_token');
+  const googleToken = params.get('wpjarvis_google_token');
   if (googleToken) {
     // Remove token from URL.
     const cleanUrl = window.location.href
-      .replace(/[?&]wjc_google_token=[^&]+/, '')
+      .replace(/[?&]wpjarvis_google_token=[^&]+/, '')
       .replace(/[?&]wjc_google=1/, '');
     window.history.replaceState(null, '', cleanUrl);
 
