@@ -1,0 +1,247 @@
+/* WP Jarvis Connector — Admin Styles */
+
+.wjc-wrap {
+  max-width: 860px;
+  margin: 30px 20px 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ── Orb ──────────────────────────────────────────── */
+.wjc-orb {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #c471ec, #9e9fef 60%, #9bc761);
+  box-shadow: 0 0 16px rgba(156, 113, 236, 0.45);
+  flex-shrink: 0;
+}
+.wjc-orb--lg {
+  width: 52px;
+  height: 52px;
+}
+
+/* ── Header (connected state) ────────────────────── */
+.wjc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+.wjc-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+.wjc-account {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #555;
+  font-size: .875rem;
+}
+
+/* ── Hero ────────────────────────────────────────── */
+.wjc-hero {
+  background: linear-gradient(135deg, #1a1a2e 0%, #2d1b69 100%);
+  border-radius: 16px;
+  padding: 48px 40px;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 24px;
+}
+.wjc-hero h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 12px;
+  color: #fff;
+}
+.wjc-hero p {
+  font-size: 1rem;
+  opacity: .8;
+  margin: 0 0 28px;
+  color: #fff;
+}
+
+/* ── Info grid ───────────────────────────────────── */
+.wjc-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.wjc-info-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.wjc-info-icon { font-size: 1.5rem; }
+.wjc-info-card strong { font-size: .9rem; color: #1a1a2e; }
+.wjc-info-card p { font-size: .8rem; color: #6b7280; margin: 0; }
+
+/* ── Auth card ───────────────────────────────────── */
+.wjc-auth-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+.wjc-auth-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 40px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 4px 24px rgba(0,0,0,.07);
+}
+.wjc-auth-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+.wjc-auth-card h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 8px;
+  color: #1a1a2e;
+}
+.wjc-auth-card > p {
+  text-align: center;
+  color: #6b7280;
+  font-size: .875rem;
+  margin: 0 0 24px;
+}
+
+/* ── Buttons ─────────────────────────────────────── */
+.wjc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: .9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: opacity .15s, background .15s;
+}
+.wjc-btn:hover { opacity: .88; }
+.wjc-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+.wjc-btn--primary {
+  background: #1a1a2e;
+  color: #fff;
+}
+.wjc-btn--ghost {
+  background: transparent;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+}
+.wjc-btn--ghost:hover { background: #f9fafb; opacity: 1; }
+.wjc-btn--google {
+  background: #fff;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+}
+.wjc-btn--google:hover { background: #f9fafb; opacity: 1; }
+.wjc-btn--full { width: 100%; }
+.wjc-btn--lg { padding: 14px 32px; font-size: 1rem; }
+.wjc-btn--sm { padding: 6px 12px; font-size: .8rem; }
+
+/* ── Divider ─────────────────────────────────────── */
+.wjc-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+  color: #9ca3af;
+  font-size: .8rem;
+}
+.wjc-divider::before,
+.wjc-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e5e7eb;
+}
+
+/* ── Form fields ─────────────────────────────────── */
+.wjc-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.wjc-field label {
+  font-size: .8rem;
+  font-weight: 600;
+  color: #374151;
+}
+.wjc-field input {
+  padding: 9px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  font-size: .9rem;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color .15s;
+}
+.wjc-field input:focus {
+  outline: none;
+  border-color: #6c63ff;
+  box-shadow: 0 0 0 3px rgba(108,99,255,.1);
+}
+
+/* ── Alerts ──────────────────────────────────────── */
+.wjc-alert {
+  padding: 10px 14px;
+  border-radius: 7px;
+  font-size: .85rem;
+  margin-bottom: 16px;
+}
+.wjc-alert--error   { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+.wjc-alert--success { background: #f0fdf4; color: #14532d; border: 1px solid #bbf7d0; }
+
+/* ── Auth links ──────────────────────────────────── */
+.wjc-auth-links {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: .8rem;
+  color: #6b7280;
+}
+.wjc-auth-links a { color: #6c63ff; text-decoration: none; }
+.wjc-auth-links a:hover { text-decoration: underline; }
+
+/* ── Disclaimer ──────────────────────────────────── */
+.wjc-disclaimer {
+  font-size: .75rem;
+  color: #9ca3af;
+  text-align: center;
+  margin-top: 20px;
+  line-height: 1.5;
+}
+.wjc-disclaimer a { color: #6b7280; }
+
+/* ── Responsive ──────────────────────────────────── */
+@media (max-width: 700px) {
+  .wjc-info-grid { grid-template-columns: 1fr; }
+  .wjc-hero { padding: 32px 20px; }
+  .wjc-auth-card { padding: 24px 20px; }
+}
